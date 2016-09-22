@@ -10,9 +10,13 @@ import pymysql.cursors
 
 dbhost='localhost'
 dbport=3306
-dbuser='root'
-dbpassword='mysql'
+dbuser='monitor'
+dbpassword='m0n1tor'
 
+usage='''print('Usage: checkMySQL.py [OPTIONS]')
+    print('  -h     Connect to host.')
+    print('  -P     Port number to use for connection.')
+'''
 
 def run_cmd(cmd):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -60,9 +64,7 @@ def CheckMySQL():
         longopts='help'
         opts, args=getopt.getopt(sys.argv[1:],shortargs, longopts=[longopts])
         if not opts:
-            print('Usage: checkMySQL.py [OPTIONS]')
-            print('  -h     Connect to host.')
-            print('  -P     Port number to use for connection.')
+            print(usage)
             sys.exit(1)
         
         for opt, value in opts:
@@ -71,19 +73,17 @@ def CheckMySQL():
             elif opt=='-P':
                 dbport=int(value)
             elif opt=='--help':
-                print('Usage: checkMySQL.py [OPTIONS]')
-                print('  -h     Connect to host.')
-                print('  -P     Port number to use for connection.')
+                print(usage)
                 sys.exit(1)
     except Exception, e:
         print(e)
-        print('Usage: checkMySQL.py [OPTIONS]')
-        print('  -h     Connect to host.')
-        print('  -P     Port number to use for connection.')
+        print(usage)
         sys.exit(1)
+
     db = InstanceMySQL(dbhost, dbport, dbuser, dbpassword)
     st = db.isHaveMySQL()
     return st
+
 
 if __name__== "__main__":
 	st=CheckMySQL()
