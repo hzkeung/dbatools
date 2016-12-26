@@ -1,6 +1,19 @@
 #!/bin/bash
 #By Huang Jinqiang<hzkeung@vip.qq.com>
 
+usage_function() {
+    #usage function
+    echo "usage: $0 init_options replication_options"
+    echo "  init options:"
+    echo "    --version=                #mysql server version"
+    echo "    --port=                   #mysql server port"
+    echo "    --password=               #mysql user root@'localhost' password"
+    echo "    --multi=[yes|no]          #mysql multi-instance yes or no"
+    echo "  replication options:"
+    echo "    --master-host=            #mysql master host"
+    echo "    --master-port=            #mysql master port"
+}
+
 temp=$(echo -n "$@" -- |sed "s/=/ /g")
 eval set -- $temp
 while true; do
@@ -24,23 +37,14 @@ while true; do
             master_port=$2
             shift 2 ;;
         --)
-        break;;
+            break;;
+        *)
+            usage_function
+            exit 1;;
     esac
 done
 
 
-usage_function() {
-    #usage function
-    echo "usage: $0 init_options replication_options"
-    echo "  init options:"
-    echo "    --version=                #mysql server version"
-    echo "    --port=                   #mysql server port"
-    echo "    --password=               #mysql user root@'localhost' password"
-    echo "    --multi=[yes|no]          #mysql multi-instance yes or no"
-    echo "  replication options:"
-    echo "    --master-host=            #mysql master host"
-    echo "    --master-port=            #mysql master port"
-}
 
 conf_function() {
     cat > $1 <<EOF
@@ -221,7 +225,6 @@ run_function() {
     elif test -n "$port" -a -n "$version" -a -n "$password" -a -n "$multi";then
         install
     else
-        echo "error information: unkonw option!"
         usage_function
         exit 1
     fi
