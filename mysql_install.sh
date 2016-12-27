@@ -24,10 +24,10 @@ while true; do
         --port)
             port=$2
             shift 2 ;;
-         --password)
+        --password)
             password=$2
             shift 2 ;;
-         --version)
+        --version)
             version=$2
             shift 2 ;;
         --master-host)
