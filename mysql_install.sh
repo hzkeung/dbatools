@@ -124,7 +124,6 @@ log_slave_updates
 #buffers & cache
 table_open_cache = 2048
 table_definition_cache = 2048
-table_open_cache = 2048
 max_heap_table_size = 96M
 sort_buffer_size = 128K
 join_buffer_size = 128K
