@@ -101,14 +101,14 @@ log-bin = /data/mysql/${port}/logs/mysql-bin
 binlog_cache_size = 4M
 max_binlog_size = 256M
 max_binlog_cache_size = 1M
-sync_binlog = 0
+sync_binlog = 1
 expire_logs_days = 10
 #procedure 
 log_bin_trust_function_creators=1
 
-#
-gtid-mode = on
-enforce_gtid_consistency = 1
+#GTID
+gtid-mode = ON
+enforce_gtid_consistency = ON
 
 #relay log
 skip_slave_start = 1
@@ -149,7 +149,7 @@ myisam_repair_threads = 1
 innodb_buffer_pool_size = 100M
 innodb_buffer_pool_instances = 1
 innodb_data_file_path = ibdata1:100M:autoextend
-innodb_flush_log_at_trx_commit = 2
+innodb_flush_log_at_trx_commit = 1
 innodb_log_buffer_size = 8M
 innodb_log_file_size = 100M
 innodb_log_files_in_group = 3
