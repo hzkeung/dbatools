@@ -1,2 +1,3 @@
 #opstools
-###mysql_install.sh  #mysql安装脚本，用于初始化安装及配置主从复制
+###mysql_install.sh
+    MySQL初始化安装和创建基于GTID复制的脚本，配置文件部分是请根据实际情况自行修改
