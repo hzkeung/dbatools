@@ -1,0 +1,68 @@
+#!/bin/sh
+
+conf=/data/mysql/mysql3306/my.cnf
+pid_file=/tmp/mysql3306.sock.lock
+PID=
+if test -f $pid_file;then
+    PID=$(cat $pid_file)
+fi
+
+start_3306() {
+    if test -f $pid_file;then
+        echo "mysql already started"
+    else
+        /usr/local/mysql/bin/mysqld --defaults-file=$conf &
+        sleep 2
+        if test -f $pid_file;then
+            echo "Start MySQL.. SUCCESS!"
+        else
+            echo "Start MySQL.. FAILD!"
+        fi
+    fi
+}
+
+stop_3306(){
+    if test -f $pid_file;then
+        kill -15 $PID
+        sleep 2
+        if test -f $pid_file;then
+            echo "Stop MySQL.. FAILD!"
+        else
+            echo "Stop MySQL.. SUCCESS!"
+        fi
+    else
+        echo "ERROR! MySQL server PID file could not be found!"
+    fi
+}
+
+reload_3306() {
+    if test -f $pid_file; then
+        kill -HUP $PID
+        echo "SUCCESS! Reloading service MySQL"
+    fi
+}
+
+status_3306() {
+    if test -f $pid_file;then
+        ps aux | grep -v grep | grep " $PID " -q && echo "SUCCESS! MySQL running ($PID)"
+    else
+        echo "MySQL is not running"
+    fi
+}
+
+case "$1" in
+    start)
+        start_3306;;
+    stop)
+        stop_3306;;
+    reload)
+        reload_3306;;
+    restart)
+        stop_3306
+        start_3306;;
+    status)
+        status_3306;;
+    *)
+        echo 'Usage: $0 {start|stop|reload|restart|status}'
+        ;; 
+esac
